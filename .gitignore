@@ -1,0 +1,24 @@
+# Directorios del sistema y configuraciones de IDE
+.idea/
+.vscode/
+*.iml
+
+# Archivos y carpetas de compilación de Java (Spring Boot)
+target/
+out/
+*.class
+*.jar
+*.war
+
+# Configuración de Node (React)
+node_modules/
+build/
+dist/
+.env
+
+# Archivos específicos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuración de Git
+.gitignore
