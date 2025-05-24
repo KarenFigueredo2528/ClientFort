@@ -6,17 +6,13 @@ ClientGuard es un sistema de gestión de clientes y tarjetas de crédito diseña
 ## Tecnologías Utilizadas
 - Lenguaje de Backend: Java (Spring Boot)
 - Lenguaje de Frontend: React (JavaScript)
-- Base de Datos Relacional: MariaDB
-- Base de Datos NoSQL: MongoDB (opcional)
-- Sistema Operativo: Debian 12
+- Base de Datos Relacional: SQL Server
 
 ## Instalación y Configuración
 1. Clona este repositorio en tu máquina local:
    ```bash
    git clone git@github.com:KarenFigueredo2528/ClientFort.git
    ```
-2. Configura la base de datos en MariaDB y aplica el script SQL proporcionado (ver sección "Script de Base de Datos").
-3. Configura el backend (Spring Boot) y el frontend (React) de acuerdo a las instrucciones específicas.
 
 ## Uso del Sistema
 - El administrador puede:
@@ -56,4 +52,4 @@ CREATE TABLE tarjetas (
 ```
 
 ## Licencia
-Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
+Este proyecto está bajo propósitos educativos.
