@@ -1,55 +1,118 @@
 # ClientGuard
 
 ## Descripción
-ClientGuard es un sistema de gestión de clientes y tarjetas de crédito diseñado para permitir al administrador de la empresa realizar todas las operaciones necesarias. El sistema proporciona funcionalidades para registrar, visualizar, modificar y eliminar clientes, así como gestionar las tarjetas de crédito asociadas a cada cliente.
+ClientGuard es un sistema de gestión de clientes y tarjetas de crédito diseñado para permitir al administrador de la empresa realizar todas las operaciones necesarias. El sistema proporciona funcionalidades para registrar, visualizar, modificar, eliminar clientes, así como gestionar las tarjetas de crédito asociadas a cada uno.
 
 ## Tecnologías Utilizadas
-- Lenguaje de Backend: Java (Spring Boot)
-- Lenguaje de Frontend: React (JavaScript)
-- Base de Datos Relacional: SQL Server
+
+### Backend
+- **Node.js** (con ES Modules)
+- **Express.js** – Framework para la API REST
+- **MySQL** / MariaDB – Base de datos relacional
+- **mysql2** – Cliente para conectarse a MySQL con soporte de Promesas
+- **dotenv** – Manejo de variables de entorno
+- **Jest** – Framework para pruebas unitarias
+- **@jest/globals** – Soporte moderno para ES Modules
+- **Nodemon** – Recarga automática durante el desarrollo
+
+### Frontend (no implementado aún)
+- React (planeado, no en esta entrega)
+
+### Herramientas de Prueba
+- **Postman** – Pruebas de los endpoints
+- **MySQL Workbench** – Verificación directa en base de datos
 
 ## Instalación y Configuración
-1. Clona este repositorio en tu máquina local:
+
+1. Clona este repositorio:
    ```bash
    git clone git@github.com:KarenFigueredo2528/ClientFort.git
+   cd ClientFort/backend
    ```
 
-## Uso del Sistema
-- El administrador puede:
-  - Registrar, visualizar, modificar y eliminar clientes.
-  - Registrar, visualizar, modificar y eliminar tarjetas de crédito.
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-## Estructura del Proyecto
-- `backend/` - Código fuente del backend en Spring Boot.
-- `frontend/` - Código fuente del frontend en React.
-- `db/` - Scripts de base de datos.
+3. Configura el archivo `.env` en `backend/`:
+   ```env
+   MYSQL_HOST=localhost
+   MYSQL_USER=root
+   MYSQL_PASSWORD=tu_clave
+   MYSQL_DATABASE=clientguard
+   PORT=3000
+   ```
+
+4. Ejecuta el backend:
+   ```bash
+   npm run dev
+   ```
+
+## Pruebas Unitarias
+
+Para ejecutar las pruebas unitarias:
+
+```bash
+node --experimental-vm-modules node_modules/jest/bin/jest.js
+```
+
+
+## 📬 Endpoints del API
+
+### 🔹 Clientes
+| Método | Ruta                          | Descripción                                      |
+|--------|-------------------------------|--------------------------------------------------|
+| `POST` | `/api/clientes/`              | Registrar un nuevo cliente                       |
+| `GET`  | `/api/clientes/`              | Obtener todos los clientes                       |
+| `GET`  | `/api/clientes/buscar`        | Buscar clientes por nombre, correo o identificación |
+
+### 🔹 Tarjetas de Crédito
+| Método | Ruta                                | Descripción                                      |
+|--------|-------------------------------------|--------------------------------------------------|
+| `POST` | `/api/tarjetas/`                    | Registrar una nueva tarjeta de crédito           |
+| `GET`  | `/api/tarjetas/`                    | Obtener todas las tarjetas                       |
+| `GET`  | `/api/tarjetas/buscar`              | Buscar tarjetas por número, franquicia o estado  |
+| `GET`  | `/api/tarjetas/contar/:clienteId`   | Obtener cuántas tarjetas tiene un cliente        |
+| `PUT`  | `/api/tarjetas/:id`                 | Modificar el cupo total de una tarjeta           |
+| `DELETE`| `/api/tarjetas/:id`                | Eliminar lógicamente una tarjeta (cambia estado) |
+
 
 ## Script de Base de Datos
-```sql
-CREATE DATABASE clientguard;
-USE clientguard;
 
-CREATE TABLE clientes (
-    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
-    correo VARCHAR(100) UNIQUE NOT NULL,
-    estado ENUM('ACTIVO', 'INACTIVO') DEFAULT 'ACTIVO'
+```sql
+/*
+Autor: Miguel Sánchez y Karen buitrago
+Descripción: Se crean tablas con relación de Cliente y Tarjeta.
+*/
+
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS client_fort;
+USE client_fort;
+
+-- Tabla de clientes
+CREATE TABLE cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    numero_identificacion VARCHAR(20) NOT NULL UNIQUE,
+    nombre_completo VARCHAR(100) NOT NULL,
+    correo_electronico VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE tarjetas (
-    id_tarjeta INT PRIMARY KEY AUTO_INCREMENT,
-    numero_tarjeta VARCHAR(16) UNIQUE NOT NULL,
-    fecha_vencimiento VARCHAR(7) NOT NULL,
-    franquicia VARCHAR(20),
+-- Tabla de tarjetas de crédito
+CREATE TABLE tarjeta_credito (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero_tarjeta VARCHAR(20) NOT NULL UNIQUE,
+    fecha_vencimiento VARCHAR(7) NOT NULL, -- Formato MM/YYYY
+    franquicia ENUM('VISA', 'MASTERCARD', 'AMEX') NOT NULL,
     estado ENUM('ACTIVO', 'INACTIVO') DEFAULT 'ACTIVO',
-    cupo_total DECIMAL(10,2) NOT NULL,
-    cupo_disponible DECIMAL(10,2) NOT NULL,
-    cupo_utilizado DECIMAL(10,2) AS (cupo_total - cupo_disponible),
-    id_cliente INT,
-    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+    cupo_total DECIMAL(10, 2) NOT NULL,
+    cupo_disponible DECIMAL(10, 2) NOT NULL,
+    cupo_utilizado DECIMAL(10, 2) GENERATED ALWAYS AS (cupo_total - cupo_disponible) STORED,
+    cliente_id INT NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id_cliente)
 );
 ```
 
 ## Licencia
-Este proyecto está bajo propósitos educativos.
+
+Este proyecto ha sido desarrollado con fines educativos.
