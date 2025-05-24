@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/", createCard);
 router.get("/", getCards);
-router.get("/buscar", searchCards);
+router.get("/buscar", searchCards); //Busca por número, franquicia o estado
 router.get("/contar/:clienteId", countCardsByClient);
 router.put("/:id", updateCardLimit);
 router.delete("/:id", deactivateCard);
