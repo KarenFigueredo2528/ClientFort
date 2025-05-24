@@ -8,11 +8,10 @@ ClientGuard es un sistema de gestión de clientes y tarjetas de crédito diseña
 ### Backend
 - **Node.js** (con ES Modules)
 - **Express.js** – Framework para la API REST
-- **MySQL** / MariaDB – Base de datos relacional
+- **MySQL** / Workbench – Base de datos relacional
 - **mysql2** – Cliente para conectarse a MySQL con soporte de Promesas
 - **dotenv** – Manejo de variables de entorno
-- **Jest** – Framework para pruebas unitarias
-- **@jest/globals** – Soporte moderno para ES Modules
+- **Vitest** – Framework para pruebas unitarias
 - **Nodemon** – Recarga automática durante el desarrollo
 
 ### Frontend (no implementado aún)
