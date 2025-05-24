@@ -21,6 +21,9 @@ ClientGuard es un sistema de gestión de clientes y tarjetas de crédito diseña
 - **Postman** – Pruebas de los endpoints
 - **MySQL Workbench** – Verificación directa en base de datos
 
+##Entorno de Desarrollo 
+- **Visual Studio Code**
+
 ## Instalación y Configuración
 
 1. Clona este repositorio:
