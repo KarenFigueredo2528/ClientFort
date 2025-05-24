@@ -39,6 +39,10 @@ export async function searchClientsService(filters) {
     keys.push("correo_electronico LIKE ?");
     values.push(`%${filters.correo}%`);
   }
+  if (filters.numeroIdentificacion) {
+    keys.push("numero_identificacion = ?");
+    values.push(filters.numeroIdentificacion);
+  }
 
   const where = keys.length > 0 ? `WHERE ${keys.join(" AND ")}` : "";
 
