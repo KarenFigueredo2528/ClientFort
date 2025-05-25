@@ -4,6 +4,7 @@ import cardsRoutes from "./src/modules/creditCards/creditCards.routes.js";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/clientes", clientsRoutes);
 app.use("/api/tarjetas", cardsRoutes);

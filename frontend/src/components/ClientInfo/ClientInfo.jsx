@@ -8,12 +8,12 @@ const ClientInfo = () => {
       <h2 className={styles.title}>Información del Cliente</h2>
       <div className={styles.infoCard}>
         <div className={styles.avatar}>
-          <span>JP</span>
+          <span>SR</span>
         </div>
         <div className={styles.details}>
-          <h3>Juan Pérez</h3>
+          <h3>Sofía Rodríguez</h3>
           <p>ID: 12345</p>
-          <p>Email: juan.perez@email.com</p>
+          <p>Email: sofia.rodriguez@email.com</p>
           <p>Teléfono: +57 300 123 4567</p>
         </div>
       </div>
