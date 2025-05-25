@@ -1,0 +1,201 @@
+/* src/components/Table/Table.module.css */
+.tableContainer {
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.header h1 {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px 20px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.statNumber {
+  display: block;
+  color: #007bff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.statLabel {
+  color: #b0b0b0;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.tableWrapper {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.table th {
+  padding: 15px 12px;
+  text-align: left;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tableRow {
+  transition: background-color 0.2s ease;
+}
+
+.tableRow:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.table td {
+  padding: 15px 12px;
+  color: #e0e0e0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cardNumber {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Courier New', monospace;
+  font-weight: 500;
+}
+
+.franchise {
+  font-size: 18px;
+}
+
+.franchiseBadge {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.amount {
+  font-weight: 600;
+  color: #28a745;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statusBadge.active {
+  background: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.statusBadge.inactive {
+  background: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+
+.emptyState h3 {
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .table {
+    font-size: 12px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .stats {
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  .tableWrapper {
+    overflow-x: auto;
+  }
+  
+  .table {
+    min-width: 1000px;
+  }
+}
