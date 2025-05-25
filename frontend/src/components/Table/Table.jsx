@@ -93,13 +93,13 @@ const Table = ({ cards, onEditCard, onDeleteCard }) => {
                     >
                       📝
                     </button>
+
                     <button
                       className={styles.actionButton}
                       onClick={() => onDeleteCard(card)}
                     >
                       🗑️
                     </button>
-                    <button className={styles.actionButton}>👁️</button>
                   </div>
                 </td>
               </tr>

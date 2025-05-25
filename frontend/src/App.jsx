@@ -1,91 +1,117 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar/Sidebar';
 import Table from './components/Table/Table';
-import './App.css';
+// import { fetchCards, createCard, updateCardLimit, deactivateCard } from './services/cardService';
+import { cardsMock } from './mock/cardMock';
+
+const USE_MOCK = true;
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [cardToEdit, setCardToEdit] = useState(null);
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      numero_tarjeta: '1234567890123456',
-      fecha_vencimiento: '12/2025',
-      franquicia: 'VISA',
-      estado: 'ACTIVO',
-      cupo_total: 5000000.00,
-      cupo_disponible: 3500000.00,
-      cupo_utilizado: 1500000.00,
-      cliente: 'Juan Pérez'
-    },
-    {
-      id: 2,
-      numero_tarjeta: '9876543210987654',
-      fecha_vencimiento: '06/2026',
-      franquicia: 'MASTERCARD',
-      estado: 'ACTIVO',
-      cupo_total: 2000000.00,
-      cupo_disponible: 1800000.00,
-      cupo_utilizado: 200000.00,
-      cliente: 'María García'
-    }
-  ]);
+  const [cards, setCards] = useState(USE_MOCK ? cardsMock : []);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    if (isSidebarOpen) {
-      setCardToEdit(null); // Limpiar al cerrar
-    }
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const addOrUpdateCard = (newCard) => {
-    if (cardToEdit) {
-      // Modo edición: actualizar tarjeta existente
-      setCards(cards.map(card =>
-        card.id === cardToEdit.id
-          ? { ...newCard, id: cardToEdit.id }
-          : card
-      ));
+  const loadCards = async () => {
+    if (USE_MOCK) {
+      setCards(cardsMock);
     } else {
-      // Modo nuevo: agregar tarjeta
-      const newId = cards.length > 0 ? Math.max(...cards.map(c => c.id)) + 1 : 1;
-      setCards([
-        ...cards,
-        {
-          ...newCard,
-          id: newId,
-          cupo_utilizado: newCard.cupo_total - newCard.cupo_disponible
-        }
-      ]);
-    }
-
-    setIsSidebarOpen(false);
-    setCardToEdit(null);
-  };
-
-  const editCard = (card) => {
-    setCardToEdit(card);
-    setIsSidebarOpen(true);
-  };
-
-  const deleteCard = (card) => {
-    const confirm = window.confirm(`¿Eliminar tarjeta de ${card.cliente}?`);
-    if (confirm) {
-      setCards(cards.filter(c => c.id !== card.id));
+      try {
+        const data = await fetchCards();
+        setCards(data);
+      } catch (error) {
+        console.error('Error cargando tarjetas:', error.message);
+      }
     }
   };
+
+  const addCard = async (newCard) => {
+    if (USE_MOCK) {
+      // Simula ID autoincremental
+      const maxId = cards.reduce((max, c) => (c.id > max ? c.id : max), 0);
+      const cardCreated = {
+        id: maxId + 1,
+        estado: 'ACTIVO',
+        franquicia: 'PENDIENTE', // o calcula si quieres
+        ...newCard,
+      };
+      setCards([...cards, cardCreated]);
+      return;
+    }
+
+    try {
+      const cardCreated = await createCard(newCard);
+      setCards([...cards, cardCreated]);
+    } catch (error) {
+      console.error('Error creando tarjeta:', error.message);
+    }
+  };
+
+  const editCard = async (card) => {
+    const nuevoCupo = prompt("Nuevo cupo total:", card.cupo_total);
+    if (nuevoCupo === null) return;
+
+    const nuevoCupoTotal = parseFloat(nuevoCupo);
+    if (isNaN(nuevoCupoTotal)) {
+      alert("Por favor ingresa un número válido.");
+      return;
+    }
+
+    if (USE_MOCK) {
+      setCards(prev =>
+        prev.map(c => c.id === card.id ? { ...c, cupo_total: nuevoCupoTotal } : c)
+      );
+      return;
+    }
+
+    try {
+      const updated = await updateCardLimit(card.id, nuevoCupoTotal);
+      setCards(prev =>
+        prev.map(c => c.id === card.id ? updated : c)
+      );
+    } catch (error) {
+      console.error("Error actualizando tarjeta:", error.message);
+    }
+  };
+
+  const deleteCard = async (card) => {
+    if (!window.confirm("¿Seguro que deseas desactivar esta tarjeta?")) return;
+
+    if (USE_MOCK) {
+      setCards(prev =>
+        prev.map(c =>
+          c.id === card.id ? { ...c, estado: 'INACTIVO' } : c
+        )
+      );
+      return;
+    }
+
+    try {
+      await deactivateCard(card.id);
+      setCards(prev =>
+        prev.map(c =>
+          c.id === card.id ? { ...c, estado: 'INACTIVO' } : c
+        )
+      );
+    } catch (error) {
+      console.error("Error desactivando tarjeta:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    loadCards();
+  }, []);
 
   return (
     <div className="app">
-      <Sidebar 
+      <Sidebar
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
-        onAddCard={addOrUpdateCard}
-        cardToEdit={cardToEdit}
+        onAddCard={addCard}
       />
       <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
-        <Table 
-          cards={cards} 
+        <Table
+          cards={cards}
           onEditCard={editCard}
           onDeleteCard={deleteCard}
         />
