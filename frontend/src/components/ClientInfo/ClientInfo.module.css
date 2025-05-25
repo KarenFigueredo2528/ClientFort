@@ -1,0 +1,51 @@
+/* src/components/ClientInfo/ClientInfo.module.css */
+.clientInfo {
+  margin-bottom: 30px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+.infoCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.details {
+  text-align: center;
+}
+
+.details h3 {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.details p {
+  color: #b0b0b0;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
